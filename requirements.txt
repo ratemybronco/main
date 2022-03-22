@@ -1,6 +1,6 @@
 ###### Requirements with Version Specifiers ######
 #   See https://www.python.org/dev/peps/pep-0440/#version-specifiers
-Scrapy==2.5.1		# Library for scraping websites and downloading html & parsing them
+Scrapy==2.6.0		# Library for scraping websites and downloading html & parsing them
 selenium==4.1.0		# Library for testing front end of a website
 Jinja2==3.0.3		# The syntax for templating html to then use for flask
 certifi==2021.10.8  # Mozilla's root certifications for validating & verification
