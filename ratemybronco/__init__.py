@@ -47,9 +47,22 @@ def search():
 
   return redirect("/search")
 
-@app.route("/professor/<professor>")
-def professor_page (name, course):
-  pass
+@app.route("/professor/<fname>-<lname>-<course>")
+def professor_page(fname, lname, course):
+
+  #Query to find professor ID, assumes unique name and only one ID returned
+  mycursor.execute("SELECT idInstructor FROM instructor WHERE firstName=%s AND lastName=%s", (fname, lname,))
+  p = mycursor.fetchone()
+
+  #Query to find course ID, to later be used for grade and rating look up, assumes on row returned
+  mycursor.execute("SELECT year, term FROM course WHERE courseName=%s AND idInstructor=%s", (course, p[0],))
+  c = mycursor.fetchone()
+
+  if not p or not c:
+    return redirect(url_for("search"))
+
+  #Place holder template, with example values
+  return render_template("professor_page.html", fname=fname, lname=lname, course=course, year=c[0], term=c[1])
 
 
 ### add raiting to the database with a SQL
