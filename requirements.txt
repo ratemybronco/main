@@ -1,0 +1,17 @@
+###### Requirements with Version Specifiers ######
+#   See https://www.python.org/dev/peps/pep-0440/#version-specifiers
+Scrapy==2.5.1		# Library for scraping websites and downloading html & parsing them
+selenium==4.1.0		# Library for testing front end of a website
+Jinja2==3.0.3		# The syntax for templating html to then use for flask
+certifi==2021.10.8  # Mozilla's root certifications for validating & verification
+cycler==0.11.0      # Helper Library for matplotlib
+fonttools==4.29.1   # Helper Library for matplotlib
+kiwisolver==1.3.2   # Helper Library for matplotlib
+matplotlib==3.5.1   # Library for creating static, animated, and interactive visualizations 
+packaging==21.3     # Helper Library for matplotlib
+Pillow==9.0.1       # Helper Library for matplotlib
+pyparsing==3.0.7    # Helper Library for matplotlib
+python-dateutil==2.8.2  # Helper Library for matplotlib
+six==1.16.0         # Helper Library for matplotlib
+mysql-connector-python==8.0.17     #Library that enables python to access MySQL
+Flask-DebugToolbar==0.11.0  #Library for debugging HTML

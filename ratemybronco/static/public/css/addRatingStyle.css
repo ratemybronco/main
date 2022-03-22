@@ -1,0 +1,120 @@
+body {
+  background-color: white;
+  font-family: "Roboto", sans-serif;
+  /* font-size: 14px; */
+}
+
+h1 {
+  font-weight: 20;
+  font-size: 4em;
+  line-height: 1.3em;
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+/* .right-title {
+    color: #70ba8f;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    text-align: center;
+} */
+
+/* ul.nav-bar {
+    background-color: #2c583e41;
+    position: fixed;
+    z-index: 3;
+    right: 0;
+    margin-top: -8px;
+    height: 3vh;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+  } */
+
+/* .link {
+  padding-left: 2vh;
+  color: white;
+  font-size: 2vh;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.secondary-link {
+  padding-left: 5%;
+}
+
+.pad {
+  padding-left: 60%;
+} */
+
+.legend {
+  font-size: 3rem;
+}
+
+.form-content {
+  padding: 25px 50px 75px;
+}
+
+.form-label {
+  font-size: 1.5rem;
+}
+
+.fieldset {
+  box-shadow: 0 0 10px grey;
+  background-color: #70ba8f;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 30px;
+}
+
+.form-control {
+  border-radius: 20px !important;
+}
+
+/* rating */
+
+.control-label {
+  padding-bottom: 30px;
+}
+.field-label-header {
+  font-size: 1.5rem;
+}
+
+#rating-ability-wrapper {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#comment {
+  margin-top: 0.5em;
+}
+
+.submitRating-button {
+  margin-top: 20px;
+  height: 4rem;
+  box-shadow: 0 0 10px grey;
+}
+
+.footer-copyright {
+  font-size: large;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.about-us {
+  font-size: 25px;
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+
+.footer-green {
+  padding-top: 10px;
+  height: 130px;
+  background-color: #70ba8f;
+  /* border-top: 10px solid white; */
+}
