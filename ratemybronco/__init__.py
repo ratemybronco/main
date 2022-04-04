@@ -9,7 +9,7 @@ import numpy as np
 from sklearn.datasets import load_iris
 import pandas as pd
 import matplotlib as plt
-# import mysql.connector
+import mysql.connector
 from flask_debugtoolbar import DebugToolbarExtension
 import os
 
@@ -19,8 +19,8 @@ app = Flask(__name__)
 
 
 ### MySQL connector and set up
-# ratemybroncoDB = mysql.connector.connect(host="localhost", user="root", database="ratemybronco")
-# mycursor = ratemybroncoDB.cursor()
+ratemybroncoDB = mysql.connector.connect(host="localhost",password='$spectre25', port="3306", user='root', database="ratemybronco")
+mycursor = ratemybroncoDB.cursor()
 
 
 ### Landing page routing
@@ -35,16 +35,22 @@ def landing():
 names = [] # To be replaced with database access
 @app.route("/search", methods=["GET","POST"]) 
 def search():
-  if request.method == "GET":
+  query = request.args.get("query") # get attribute query, must be named "query"
+  instructor = False
+
+  if query:
+    # if it has numbers it is a class otherwise prof's name
+    instructor = True if query.isalpha() else False
+
+    print("searching for instructors") if instructor else print("searching for classes")
+    if instructor:
+      parsed_query = query.split() # assuming user inputs first and last name correctly
+      mycursor.execute("SELECT * FROM instructor i WHERE i.firstName=%s AND i.lastName=%s", (parsed_query[0], parsed_query[1],))
+    else:
+      mycursor.execute("SELECT * FROM class c WHERE c.CourseNumber=%s", (query,))
+
     return render_template("search.html", professors=names)
   
-  # check the if there is a number in the query then search the courses
-  professor = request.form.get("professor")
-  if not professor:
-    return "output blank"
-
-  names.append(professor)
-
   return redirect("/search")
 
 @app.route("/professor/<fname>-<lname>-<course>")

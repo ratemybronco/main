@@ -40,13 +40,15 @@
       </div>
     </nav>
     <div class="row no-gutters" id="row">
-      <a class="col-12 col-sm-6 col-md-6 grow" href='{{ url_for("search") }}'>
+      <a class="col-12 col-sm-6 col-md-6 grow" >
         <div class="left-title">
           <div class="title">
             <h1>Search Ratings</h1>
           </div>
           <div class="input-group rounded">
-            <input type="search" class="form-control rounded" placeholder="Search Professor or Course" aria-label="Search" aria-describedby="search-addon" />
+            <form action='{{ url_for("search") }}' method="get">
+              <input name="query" type="search" class="form-control rounded" placeholder="Search Professor or Course" aria-label="Search" aria-describedby="search-addon" />
+            </form>
           </div>
         </div>
       </a>
