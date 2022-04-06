@@ -1,5 +1,5 @@
 # from crypt import methods
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 import base64
 from io import BytesIO
 from matplotlib.figure import Figure
@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 
 ### MySQL connector and set up
-ratemybroncoDB = mysql.connector.connect(host="localhost",password='$spectre25', port="3306", user='root', database="ratemybronco")
+ratemybroncoDB = mysql.connector.connect(option_files="ratemybronco/config.cfg", option_groups="database")
 mycursor = ratemybroncoDB.cursor()
 
 
