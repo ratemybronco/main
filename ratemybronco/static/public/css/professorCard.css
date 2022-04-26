@@ -1,0 +1,68 @@
+body {
+  background-color: white;
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 700 !important;
+  /* font-size: 14px; */
+}
+
+h1 {
+  font-weight: 20;
+  font-size: 4em !important;
+  line-height: 1.3em;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.row {
+  min-height: 100vh;
+}
+
+.col-12 {
+  background-color: #70ba8f;
+}
+
+.left-title {
+  display: inline-block;
+  color: white;
+  margin-top: 8%;
+  margin-left: 3%;
+  text-align: center;
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.title {
+  display: inline-block;
+}
+
+.container {
+  margin: 2em;
+  padding: 1em;
+  height: 60vh;
+  background-color: white;
+  border-radius: 2em;
+  color: gray;
+}
+
+.footer-copyright {
+  font-size: large;
+  margin-bottom: 20px;
+  color: grey;
+}
+
+.about-us {
+  font-size: 25px;
+  font-weight: 600;
+  font-family: "Roboto", sans-serif;
+}
+
+.footer-white {
+  padding-top: 10px;
+  height: 130px;
+  background-color: white;
+  border-top: 10px solid #70ba8f;
+}

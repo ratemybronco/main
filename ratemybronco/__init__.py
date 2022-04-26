@@ -18,7 +18,7 @@ import os
 app = Flask(__name__)
 
 
-### MySQL connector and set up
+## MySQL connector and set up
 ratemybroncoDB = mysql.connector.connect(option_files="ratemybronco/config.cfg", option_groups="database")
 mycursor = ratemybroncoDB.cursor()
 
@@ -27,8 +27,6 @@ mycursor = ratemybroncoDB.cursor()
 @app.route("/")
 def landing():
   return render_template("index.html")
-
-
 
 
 ### Search page routing and support
@@ -51,7 +49,7 @@ def search():
 
     return render_template("search.html", professors=names)
   
-  return redirect("/search")
+  return render_template("search.html")
 
 @app.route("/professor/<fname>-<lname>-<course>")
 def professor_page(fname, lname, course):
@@ -125,6 +123,10 @@ def grades():
 
   return f"Grade Disbursement Page {display(df)} <img src='data:image/png;base64,{data}'/>"
 
+### Professor card page routing
+@app.route("/professorCard")
+def card():
+  return render_template("professorCard.html")
 
 ### Run if main
 if __name__ == "__main__":

@@ -44,28 +44,30 @@
           <div class="title">
             <h1>Search Ratings</h1>
           </div>
-          <div class="input-group rounded" >
+          <div class="input-group rounded">
             <form action='{{ url_for("search") }}' method="get">
-              <input name="query" type="text" class="form-control rounded" placeholder="Search Professor or Course" aria-label="Search" aria-describedby="search-addon"/>
+              <input name="query" type="text" class="form-control rounded" placeholder="Search Professor or Course" aria-label="Search" aria-describedby="search-addon" />
             </form>
           </div>
         </div>
-        <div class="container">
+        <a href='{{ url_for("card") }}'>
+          <div class="container">
+            <h3>[Professor Name]</h3>
+            <h4>[Course Name]</h4>
+            <h4>[Rating]</h4>
+          </div>
+        </a>
+        <div class="container" href='{{ url_for("card") }}'>
           <h3>[Professor Name]</h3>
           <h4>[Course Name]</h4>
           <h4>[Rating]</h4>
         </div>
-        <div class="container">
+        <div class="container" href='{{ url_for("card") }}'>
           <h3>[Professor Name]</h3>
           <h4>[Course Name]</h4>
           <h4>[Rating]</h4>
         </div>
-        <div class="container">
-          <h3>[Professor Name]</h3>
-          <h4>[Course Name]</h4>
-          <h4>[Rating]</h4>
-        </div>
-        <div class="container">
+        <div class="container" href='{{ url_for("card") }}'>
           <h3>[Professor Name]</h3>
           <h4>[Course Name]</h4>
           <h4>[Rating]</h4>
