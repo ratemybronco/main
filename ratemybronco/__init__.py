@@ -4,7 +4,6 @@ import base64
 from io import BytesIO
 from matplotlib.figure import Figure
 from IPython.display import display
-from pymongo import MongoClient
 import numpy as np
 from sklearn.datasets import load_iris
 import pandas as pd
@@ -51,22 +50,20 @@ def search():
   
   return render_template("search.html")
 
-@app.route("/professor/<fname>-<lname>-<course>")
-def professor_page(fname, lname, course):
+@app.route("/professor/<fname>-<lname>-<term>-<year>-<course>")
+def professor_page(fname, lname, term, year, course):
+ 
+  mycursor.callproc("getSectionID", (fname, lname, term, year, course))
+  for results in mycursor.stored_results():
+    sectionID = results.fetchone()[0]
 
-  #Query to find professor ID, assumes unique name and only one ID returned
-  mycursor.execute("SELECT idInstructor FROM instructor WHERE firstName=%s AND lastName=%s", (fname, lname,))
-  p = mycursor.fetchone()
 
-  #Query to find course ID, to later be used for grade and rating look up, assumes on row returned
-  mycursor.execute("SELECT year, term FROM course WHERE courseName=%s AND idInstructor=%s", (course, p[0],))
-  c = mycursor.fetchone()
-
-  if not p or not c:
-    return redirect(url_for("search"))
+  mycursor.callproc("getGrades", (sectionID,))
+  for results in mycursor.stored_results():
+    grades = results.fetchone()
 
   #Place holder template, with example values
-  return render_template("professor_page.html", fname=fname, lname=lname, course=course, year=c[0], term=c[1])
+  return render_template("professor_page.html")
 
 
 ### add raiting to the database with a SQL
