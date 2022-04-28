@@ -5,33 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/public/css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" /> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Rubik:wght@300&family=Shippori+Antique+B1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Josefin+Slab:ital@1&family=Lato:wght@100;300&display=swap" rel="stylesheet">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script>
     <title>Rate My Bronco</title>
   </head>
-  <body>
+  <body>  
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href='{{ url_for("landing") }}'>Rate My Bronco</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"> </span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ">
             <li class="nav-item">
               <a class="nav-link" href='{{ url_for("search") }}'>Search Ratings</a>
-            </li>
+            </li> 
             <li class="nav-item">
               <a class="nav-link" href='{{ url_for("add_rating") }}'>Add Ratings</a>
             </li>
@@ -40,21 +41,34 @@
       </div>
     </nav>
     <div class="row no-gutters" id="row">
-      <a class="col-12 col-sm-6 col-md-6 grow">
+      <a class="col-12 col-sm-6  grow">
         <div class="left-title">
           <div class="title">
-            <h1>Search Ratings</h1>
-          </div>
-          <div class="input-group rounded">
-            <form action='{{ url_for("search") }}' method="get">
-              <input name="query" type="search" class="form-control rounded" placeholder="Search Professor or Course" aria-label="Search" aria-describedby="search-addon" />
-            </form>
-          </div>
+            <h1 class="searchRatingHeading">Search Ratings</h1>
+            <br />
+            <br />
+            <br />
+            <div class="searchInfo">
+              <p class="searchRatingText"> Click here to search by professor name or course name.</p>
+              <div class="searchBar input-group rounded">
+                <form action='{{ url_for("search") }}' method="get">
+                  <input name="query" type="search" class="form-control rounded" placeholder="Search Professor or Course" aria-label="Search" aria-describedby="search-addon" />
+                </form>
+              </div>
+            </div>
+          </div>        
         </div>
       </a>
-      <a class="col-6 col-md-6 grow" href='{{ url_for("add_rating") }}'>
+      <a class="col-6 col-sm-6   grow"  href='{{ url_for("add_rating") }}' >
         <div class="right-title">
-          <h1>Add Rating</h1>
+          <h1 class="addRatingHeading">Add Ratings</h1>
+            <br />
+            <br />
+            <br />
+            <!-- <div class="addInfo"> -->
+              <p class="addRatingText"> Click here to add a rating for a professor and share your experience. </p>
+              <button type="button" href='{{ url_for("add_rating") }}' class="addRatingbtn btn btn-primary "> <strong>Add Rating</strong></button>
+            <!-- </div> -->
         </div>
       </a>
     </div>

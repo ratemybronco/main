@@ -11,6 +11,54 @@ h1 {
   line-height: 1.3em;
 }
 
+.searchRatingHeading {
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 4px;
+}
+
+.searchRatingText {
+  font-family: "Josefin Slab", serif;
+  font-size: 200%;
+  letter-spacing: 0.5rem;
+  padding: 30px;
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.addRatingHeading {
+  font-family: "Oswald", sans-serif;
+  font-weight: bold;
+  letter-spacing: 4px;
+}
+
+.addRatingText {
+  font-family: "Josefin Slab", serif;
+  font-size: 200%;
+  letter-spacing: 0.5rem;
+  padding: 30px;
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.searchInfo {
+  position: relative;
+}
+
+.searchBar {
+  position: absolute;
+  top: 10%;
+  left: 35%;
+}
+input.form-control.rounded {
+  border-radius: 40px !important;
+}
+
+.searchBar input {
+  height: 40px;
+  width: 230px;
+  text-align: left;
+}
+
 a {
   text-decoration: none !important;
 }
@@ -43,6 +91,17 @@ a {
   color: #70ba8f;
   margin-top: 20%;
   margin-left: 5%;
+  text-align: center;
+}
+
+.addRatingbtn {
+  height: 40px;
+  width: 300px;
+  text-align: center;
+  color: white;
+  background-color: #70ba8f !important;
+  border-radius: 40px !important;
+  border: 1px solid white !important;
 }
 
 @media (min-width: 576px) {
@@ -62,8 +121,8 @@ a {
 .footer-white {
   padding-top: 10px;
   height: 130px;
-  background-color: white;
-  border-top: 3px solid #70ba8f;
+  background-color: #f8f9fa;
+  /* border-top: 3px solid #70ba8f; */
 }
 
 .footer-copyright {
