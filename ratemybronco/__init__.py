@@ -5,7 +5,6 @@ from io import BytesIO
 from matplotlib.figure import Figure
 from IPython.display import display
 import numpy as np
-from sklearn.datasets import load_iris
 import pandas as pd
 import matplotlib as plt
 import mysql.connector
@@ -18,7 +17,8 @@ app = Flask(__name__)
 
 
 ## MySQL connector and set up
-ratemybroncoDB = mysql.connector.connect(option_files="ratemybronco/config.cfg", option_groups="database")
+# ratemybroncoDB = mysql.connector.connect(option_files="ratemybronco/config.cfg", option_groups="database")
+ratemybroncoDB = mysql.connector.connect(user='admin', password='ratemybronco', host='ratemybronco.cckwxul93z9y.us-west-1.rds.amazonaws.com', port=3306, database='ratemybronco')
 mycursor = ratemybroncoDB.cursor()
 
 
@@ -32,23 +32,46 @@ def landing():
 names = [] # To be replaced with database access
 @app.route("/search", methods=["GET","POST"]) 
 def search():
+  cards = {}
   query = request.args.get("query") # get attribute query, must be named "query"
   instructor = False
 
   if query:
     # if it has numbers it is a class otherwise prof's name
-    instructor = True if query.isalpha() else False
+    instructor = not any(i.isdigit() for i in query)
+    instructorid = 0
+    courseid = []
 
     print("searching for instructors") if instructor else print("searching for classes")
     if instructor:
       parsed_query = query.split() # assuming user inputs first and last name correctly
-      mycursor.execute("SELECT * FROM instructor i WHERE i.firstName=%s AND i.lastName=%s", (parsed_query[0], parsed_query[1],))
+      fname = parsed_query[0]
+      lname = parsed_query[1]
+    
+      mycursor.callproc("searchInstructor", args=(fname, lname))
+      for result in mycursor.stored_results():
+        res = result.fetchone()
+        instructorid = res[0]
+
+      mycursor.callproc("getCourses", args=(instructorid,))
+      for result in mycursor.stored_results():
+        for res in result:
+          courseid.append(res[0])
+
+      print(courseid)
+      for id in courseid:
+        mycursor.callproc("getOverallRating", args=(id, instructorid))
+        for result in mycursor.stored_results():
+          print(result.fetchall())
+
     else:
-      mycursor.execute("SELECT * FROM class c WHERE c.CourseNumber=%s", (query,))
+      mycursor.execute("SELECT * FROM Course c WHERE c.CourseNumber=%s", (query,))
 
     return render_template("search.html", professors=names)
   
-  return render_template("search.html")
+  return render_template("search.html", professors=names)
+
+
 
 @app.route("/professor/<fname>-<lname>-<term>-<year>-<course>")
 def professor_page(fname, lname, term, year, course):
