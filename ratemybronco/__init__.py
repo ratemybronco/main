@@ -1,4 +1,5 @@
 # from crypt import methods
+from xml.etree.ElementTree import tostring
 from flask import Flask, redirect, render_template, request, url_for
 import base64
 from io import BytesIO
@@ -40,7 +41,7 @@ def search():
   if query:
     # if it has numbers it is a class otherwise prof's name
     instructor = not any(i.isdigit() for i in query)
-    instructorid = 0
+    instructorid = []
     courseid = []
 
     print("searching for instructors") if instructor else print("searching for classes")
@@ -48,22 +49,27 @@ def search():
       parsed_query = query.split() # assuming user inputs first and last name correctly
       fname = parsed_query[0]
       lname = parsed_query[1]
-    
+
+      # returns id of the instructor to look up the courses
+      # assumes there is only one prof with this name
       mycursor.callproc("searchInstructor", args=(fname, lname))
       for result in mycursor.stored_results():
         res = result.fetchone()
         instructorid = res[0]
 
+      # get courses only requires instructor id.
       mycursor.callproc("getCourses", args=(instructorid,))
       for result in mycursor.stored_results():
         for res in result:
-          courseid.append(res[0])
+          # name every card with the course ID
+          cards[str(res[0])] = {'ProfessorName': query, 'CourseName': res[1], 'CourseDesc': res[2]}
 
-      print(courseid)
-      for id in courseid:
+      # Look up every id in the cards and append the overal rating to it
+      for id in cards:
         mycursor.callproc("getOverallRating", args=(id, instructorid))
         for result in mycursor.stored_results():
-          print(result.fetchall())
+          cards[id]['OverallRating'] = result.fetchall()[0][0]
+      
 
     else:
       mycursor.execute("SELECT * FROM Course c WHERE c.CourseNumber=%s", (query,))
