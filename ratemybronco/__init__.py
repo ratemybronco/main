@@ -168,7 +168,10 @@ def grades():
 
 @app.route("/professorCard")
 def card():
-    return render_template("professorCard.html")
+  legend = 'Grade Disbursements'
+  labels = ['A', 'B', 'C', 'D', 'F']
+  values = [10, 18, 8, 5, 3]
+  return render_template('professorCard.html', values=values, labels=labels, legend=legend)
 
 
 # Run if main
