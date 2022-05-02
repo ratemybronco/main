@@ -42,7 +42,6 @@ def search():
     # if it has numbers it is a class otherwise prof's name
     instructor = not any(i.isdigit() for i in query)
     instructorid = []
-    courseid = []
 
     print("searching for instructors") if instructor else print("searching for classes")
     if instructor:
@@ -69,11 +68,21 @@ def search():
         mycursor.callproc("getOverallRating", args=(id, instructorid))
         for result in mycursor.stored_results():
           cards[id]['OverallRating'] = result.fetchall()[0][0]
-      
-
+    
     else:
-      mycursor.execute("SELECT * FROM Course c WHERE c.CourseNumber=%s", (query,))
+      print(query)
+      mycursor.callproc("returnAllClasses", args=(query,))
+      for result in mycursor.stored_results():
+        for res in result:
+          idCourse = result[0]
+          name = " ".join(result[1:3]) # joins the first and last name
+          courseName = result[3]
+          overallrating = result[4]
 
+          cards[idCourse] = {'ProfessorName': name, 'CourseName': courseName, 'OverallRating': overallrating}
+
+      print(cards)
+    
     return render_template("search.html", professors=names)
   
   return render_template("search.html", professors=names)
