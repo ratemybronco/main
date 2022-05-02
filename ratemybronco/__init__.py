@@ -70,16 +70,16 @@ def search():
           cards[id]['OverallRating'] = result.fetchall()[0][0]
     
     else:
-      print(query)
+      
+      # note when user searches for a course name this the Course.idCourse will be the same for all the returned values
+      # this is how the sql is set up!
       mycursor.callproc("returnAllClasses", args=(query,))
       for result in mycursor.stored_results():
-        for res in result:
-          idCourse = result[0]
-          name = " ".join(result[1:3]) # joins the first and last name
-          courseName = result[3]
-          overallrating = result[4]
-
-          cards[idCourse] = {'ProfessorName': name, 'CourseName': courseName, 'OverallRating': overallrating}
+        for i, res in enumerate(result):
+          name = " ".join(res[0:2]) # joins the first and last name
+          courseName = res[2]
+          overallrating = None # res[3] later be replaced by this 
+          cards[i] = {'ProfessorName': name, 'CourseName': courseName, 'OverallRating': overallrating}
 
       print(cards)
     
