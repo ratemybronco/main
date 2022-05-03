@@ -28,10 +28,7 @@ def landing():
     return render_template("index.html")
 
 
-# Search page routing and support
-names = []  # To be replaced with database access
-
-
+# Search page routing
 @app.route("/search", methods=["GET", "POST"])
 def search():
   cards = {}
@@ -83,10 +80,9 @@ def search():
 
       print(cards)
     
-    return render_template("search.html", professors=names)
+    return render_template("search.html", cards=cards)
   
-  return render_template("search.html", professors=names)
-
+  return render_template("search.html")
 
 
 @app.route("/professor/<fname>-<lname>-<term>-<year>-<course>")
@@ -129,43 +125,14 @@ def add_rating():
     # Execute this command, expecting no returns.
     mycursor.execute(sql_command)
 
+
 # Thank you page or the submitted page
-
-
 @app.route("/submitted", methods=["GET"])
 def submitted():
     return "Thank You"
 
 
-# Return the grade disbursement for the displaying of the data
-@app.route("/grade-disbursements")
-def grades():
-    # Loading irirs dataset
-    data = load_iris()
-    df = pd.DataFrame(data.data, columns=data.feature_names)
-
-    # Generate the  matplot figure **without using pyplot**.
-    fig = Figure()
-    ax = fig.subplots()
-    grades = ['A', 'B', 'C', 'D', 'F']
-    disbursements = [10, 18, 8, 5, 3]
-    ax.bar(grades, disbursements, color=[
-           'red', 'orange', 'yellow', 'green', 'blue'])
-    ax.set_xlabel("Grade Received")
-    ax.set_ylabel("Number of Students")
-    ax.set_title(
-        "[Prof Name], [Course Number], [Semester], [Year] Grade Disbursement")
-    # Save it to a temporary buffer.
-    buf = BytesIO()
-    fig.savefig(buf, format="png")
-    # Embed the result in the html output.
-    data = base64.b64encode(buf.getbuffer()).decode("ascii")
-
-    return f"Grade Disbursement Page {display(df)} <img src='data:image/png;base64,{data}'/>"
-
 # Professor card page routing
-
-
 @app.route("/professorCard")
 def card():
   legend = 'Grade Disbursements'

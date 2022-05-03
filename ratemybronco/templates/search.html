@@ -50,28 +50,22 @@
             </form>
           </div>
         </div>
-        <a href='{{ url_for("card") }}'>
-          <div class="container">
-            <h3>[Professor Name]</h3>
-            <h4>[Course Name]</h4>
-            <h4>[Rating]</h4>
-          </div>
-        </a>
-        <div class="container" href='{{ url_for("card") }}'>
-          <h3>[Professor Name]</h3>
-          <h4>[Course Name]</h4>
-          <h4>[Rating]</h4>
+        {% if cards %}
+          {% for value in cards %}
+          <a href='{{ url_for("card") }}'>
+            <div class="container">
+              <h3>{{cards[value]['ProfessorName']}}</h3>
+              <h4>{{cards[value]['CourseName']}}</h4>
+              <h4>{{cards[value]['OverallRating']}}</h4>
+            </div>
+          </a>
+          {% endfor %}
+
+        {% else %}
+        <div class="container">
+          <h3>No Results</h3>
         </div>
-        <div class="container" href='{{ url_for("card") }}'>
-          <h3>[Professor Name]</h3>
-          <h4>[Course Name]</h4>
-          <h4>[Rating]</h4>
-        </div>
-        <div class="container" href='{{ url_for("card") }}'>
-          <h3>[Professor Name]</h3>
-          <h4>[Course Name]</h4>
-          <h4>[Rating]</h4>
-        </div>
+        {% endif %}
       </div>
     </div>
 
