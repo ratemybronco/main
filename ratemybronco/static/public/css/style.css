@@ -138,6 +138,9 @@ a {
   font-family: "Roboto", sans-serif;
 }
 
+a {
+  color: #515151 !important;
+}
 /* .footer-green {
   padding-top: 10px;
   height: 130px;

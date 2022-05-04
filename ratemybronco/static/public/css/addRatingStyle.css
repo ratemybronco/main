@@ -118,3 +118,7 @@ h1 {
   background-color: #70ba8f;
   /* border-top: 10px solid white; */
 }
+
+a {
+  color: #515151 !important;
+}
