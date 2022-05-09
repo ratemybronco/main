@@ -153,7 +153,7 @@ def add_rating():
 # Thank you page or the submitted page
 @app.route("/submitted", methods=["GET"])
 def submitted():
-    return "Thank You"
+    return render_template("thankYou.html")
 
 
 # Professor card page routing
