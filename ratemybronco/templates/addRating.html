@@ -56,7 +56,7 @@
     </nav>
     <fieldset class="border p-2 fieldset">
       <legend class="w-auto legend">Add Rating</legend>
-      <form class="row g-3 form-content">
+      <form class="row g-3 form-content" action='{{ url_for("submitted") }}'>
         <div class="col-md-6 input-group-lg">
           <label for="inputFirstName" class="form-label">First Name</label>
           <input type="text" class="form-control" id="inputFirstName" placeholder="Instructor's First Name" />
@@ -135,7 +135,10 @@
         return (
           <div className=" footer-green text-center text-white">
             <footer>
-              <p className="about-us"> <a href='{{ url_for("aboutus") }}'> About Us </a></p>
+              <p className="about-us">
+                {" "}
+                <a href='{{ url_for("aboutus") }}'> About Us </a>
+              </p>
               <p className="footer-copyright"> Copyright © {currentYear} Rate My Bronco </p>
             </footer>
           </div>

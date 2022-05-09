@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/public/css/search.css" />
+    <link rel="stylesheet" href="../static/public/css/thankYou.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Rubik:wght@300&family=Shippori+Antique+B1&display=swap" rel="stylesheet" />
@@ -46,47 +46,16 @@
         </div>
       </div>
     </nav>
-    <div class="row no-gutters">
-      <div class="col-12 col-sm-12 col-md-12">
-        <div class="left-title">
-          <div class="title">
-            <h1>Search Ratings</h1>
-          </div>
-          <div class="input-group rounded">
-            <form action='{{ url_for("search") }}' method="get">
-              <input
-                name="query"
-                type="text"
-                class="form-control rounded"
-                placeholder="Search Professor or Course"
-                aria-label="Search"
-                aria-describedby="search-addon"
-              />
-            </form>
-          </div>
-        </div>
-        {% if cards %} {% for value in cards %}
-        <a href='{{ url_for("card") }}'>
-          <div class="container">
-            <h3>{{cards[value]['ProfessorName']}}</h3>
-            <h4>{{cards[value]['CourseName']}}</h4>
-            <h4>{{cards[value]['OverallRating']}}</h4>
-          </div>
-        </a>
-        {% endfor %} {% else %}
-        <div class="container">
-          <h3>No Results</h3>
-        </div>
-        {% endif %}
-      </div>
+    <div class="d-flex justify-content-center align-items-center content">
+      <h1>Thank you for your review!</h1>
     </div>
-
     <div id="footer"></div>
+
     <script type="text/babel">
       function Footer() {
         const currentYear = new Date().getFullYear();
         return (
-          <div className=" footer-white text-center text-black">
+          <div className="footer footer-white text-center text-black">
             <footer>
               <p className="about-us">
                 {" "}

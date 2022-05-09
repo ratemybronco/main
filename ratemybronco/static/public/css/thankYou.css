@@ -39,13 +39,8 @@ a {
   display: inline-block;
 }
 
-.container {
-  margin: 2em;
-  padding: 1em;
-  height: 20vh;
-  background-color: white;
-  border-radius: 2em;
-  color: gray;
+.content {
+  padding-top: 30vh;
 }
 
 .footer-copyright {
@@ -60,11 +55,15 @@ a {
   font-family: "Roboto", sans-serif;
 }
 
+.footer {
+  margin-top: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
 .footer-white {
-  padding-top: 10px;
-  height: 130px;
-  background-color: white;
-  border-top: 10px solid #70ba8f;
+  padding: 0.5vh;
+  background-color: rgba(143, 143, 143, 0.149);
 }
 
 a {
