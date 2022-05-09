@@ -90,19 +90,38 @@ def search():
     return render_template("search.html")
 
 
-@app.route("/professor/<fname>-<lname>-<term>-<year>-<course>")
-def professor_page(fname, lname, term, year, course):
+@app.route("/professor")
+def professor_page():
+    name = request.args.get("name").split(" ")
+    course = request.args.get("course")
+    term = request.args.get("term")
+    year = request.args.get("year")
+    print(f"{name} {course} {term} {year}")
 
-    mycursor.callproc("getSectionID", (fname, lname, term, year, course))
-    for results in mycursor.stored_results():
-        sectionID = results.fetchone()[0]
+    if year and term:
+        print("Year and term submitted")
+        mycursor.callproc("getSectionID", (name[0], name[1], term, year, course))
+        for results in mycursor.stored_results():
+            sectionID = results.fetchone()
 
-    mycursor.callproc("getGrades", (sectionID,))
+        mycursor.callproc("getGrades", (sectionID,))
+        for results in mycursor.stored_results():
+            grades = results.fetchone()[0]
+
+        # Place holder template, with example values
+        return render_template("professor_page.html")
+
+    mycursor.callproc("getGradesByCourse", (course, name[0], name[1]))
     for results in mycursor.stored_results():
         grades = results.fetchone()
-
-    # Place holder template, with example values
-    return render_template("professor_page.html")
+    
+    return render_template('professorCard.html',
+                            professor=name[0]+name[1],
+                            course=course,
+                            values=grades, 
+                            labels=['A', 'B', 'C', 'D', 'F'],
+                            legend='Grade Disbursements',
+                            rating='-.-')
 
 
 # add raiting to the database with a SQL

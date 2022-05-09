@@ -52,7 +52,7 @@
         </div>
         {% if cards %}
           {% for value in cards %}
-          <a href='{{ url_for("card") }}'>
+          <a href='{{ url_for("professor_page")}}?name={{cards[value]["ProfessorName"]}}&course={{cards[value]["CourseName"]}}'>
             <div class="container">
               <h3>{{cards[value]['ProfessorName']}}</h3>
               <h4>{{cards[value]['CourseName']}}</h4>
