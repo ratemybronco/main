@@ -112,30 +112,27 @@ def professor_page():
 # add raiting to the database with a SQL
 @app.route("/review", methods=["POST", "GET"])
 def add_rating():
-
     if request.method == "GET":
+        print("Get request inside the add_rating method")
         return render_template("addRating.html")
 
     # Add server side checking
     # get all the data from the field
-    ProfessorName = request.form.get("ProfessorName")
+    ProfessorFName = request.form.get("firstName")
+    ProfessorLName = request.form.get("lastName")
     courseName = request.form.get("courseName")
-    Semester = request.form.get("Semester")
-    Rating = request.form.get("Rating")
-    Comment = request.form.get("Comment")
+    Rating = request.form.get("selected_rating")
+    Comment = request.form.get("comment")
 
     # no need to call an html or redirect
     # compile it into a csv
     # put in format with commas so we can add it as an sql_command
-    user_rating = f'"{ProfessorName}" , "{courseName}", "{Semester}", "{Rating}", "{Comment}"'
+    user_rating = f'"{ProfessorFName}", "{ProfessorLName}", "{courseName}", "{Rating}", "{Comment}"'
+    print(user_rating)
     # add a new row into cards table which we will need to create.
-    sql_command = f"INSERT INTO cards (ProfessorName, Class, Semester, Rating, Comment) VALUES ({user_rating});"
-
-    # Execute this command, expecting no returns.
-    mycursor.execute(sql_command)
-    ratemybroncoDB.commit()
-
-    redirect(url_for('submitted'))
+    # mycursor.callproc("addRating", (ProfessorFName, ProfessorLName, courseName, Rating, Comment))
+    # ratemybroncoDB.commit()
+    return render_template("thankYou.html")
 
 
 # Thank you page or the submitted page

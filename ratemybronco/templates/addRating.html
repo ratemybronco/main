@@ -56,18 +56,18 @@
     </nav>
     <fieldset class="border p-2 fieldset">
       <legend class="w-auto legend">Add Rating</legend>
-      <form class="row g-3 form-content" action='{{ url_for("submitted") }}'>
+      <form class="row g-3 form-content" action='{{ url_for("add_rating") }}' method="post">
         <div class="col-md-6 input-group-lg">
           <label for="inputFirstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="inputFirstName" placeholder="Instructor's First Name" />
+          <input name="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Instructor's First Name" />
         </div>
         <div class="col-md-6 input-group-lg">
           <label for="inputLastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="inputLastName" placeholder="Instructor's Last Name" />
+          <input name="lastName" type="text" class="form-control" id="inputLastName" placeholder="Instructor's Last Name" />
         </div>
         <div class="col-md-4 input-group-lg">
           <label for="inputCourse" class="form-label">Course</label>
-          <input type="text" class="form-control" id="inputCourse" placeholder="CS 4800" />
+          <input name="courseName" type="text" class="form-control" id="inputCourse" placeholder="CS 4800" />
         </div>
         <!-- rating starts -->
         <div class="form-group" id="rating-ability-wrapper">
@@ -96,7 +96,7 @@
         <!-- review writing -->
         <div class="form-group input-group-lg form-label">
           <label for="comment">Write a Review</label>
-          <textarea class="form-control" rows="8" id="comment" placeholder="What do you want other students to know about this professor?"></textarea>
+          <textarea name="comment" class="form-control" rows="8" id="comment" placeholder="What do you want other students to know about this professor?"></textarea>
         </div>
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-light btn-lg submitRating-button form-control">Submit Rating</button>
