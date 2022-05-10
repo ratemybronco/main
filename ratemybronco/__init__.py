@@ -52,7 +52,7 @@ def search():
             # assumes there is only one prof with this name
             mycursor.callproc("searchInstructor", args=(fname, lname))
             for result in mycursor.stored_results():
-              for i, res in enumerate(result):                
+              for i, res in enumerate(result.fetchall()):
                   if not res:
                     print("No results found")
 
@@ -133,6 +133,9 @@ def add_rating():
 
     # Execute this command, expecting no returns.
     mycursor.execute(sql_command)
+    ratemybroncoDB.commit()
+
+    redirect(url_for('submitted'))
 
 
 # Thank you page or the submitted page
