@@ -40,35 +40,24 @@ def search():
     if query:
         # if it has numbers it is a class otherwise prof's name
         instructor = not any(i.isdigit() for i in query)
-        instructorid = []
 
-        print("searching for instructors") if instructor else print(
-            "searching for classes")
+        print("searching for instructors") if instructor else print("searching for classes")
         if instructor:
-            parsed_query = query.split()  # assuming user inputs first and last name correctly
-            fname = parsed_query[0]
-            lname = parsed_query[1]
+            parsed_query = query.split()  
+            fname, lname = "%" + parsed_query[0] + "%" , "%".join(parsed_query[1:]) if len(parsed_query)>1 else '%'
+            
+            print(fname, lname)
 
             # returns id of the instructor to look up the courses
             # assumes there is only one prof with this name
             mycursor.callproc("searchInstructor", args=(fname, lname))
             for result in mycursor.stored_results():
-                res = result.fetchone()
-                instructorid = res[0]
+              for i, res in enumerate(result):                
+                  if not res:
+                    print("No results found")
 
-            # get courses only requires instructor id.
-            mycursor.callproc("getCourses", args=(instructorid,))
-            for result in mycursor.stored_results():
-                for res in result:
-                    # name every card with the course ID
-                    cards[str(res[0])] = {
-                        'ProfessorName': query, 'CourseName': res[1], 'CourseDesc': res[2]}
-
-            # Look up every id in the cards and append the overal rating to it
-            for id in cards:
-                mycursor.callproc("getOverallRating", args=(id, instructorid))
-                for result in mycursor.stored_results():
-                    cards[id]['OverallRating'] = result.fetchall()[0][0]
+                  name, courseName, courseDesc, overallrating = " ".join(res[0:2]), res[2], res[3], None
+                  cards[i] = {'ProfessorName': name, 'CourseName': courseName, 'CourseDesc': courseDesc, 'OverallRating': overallrating}
 
         else:
 
@@ -77,13 +66,9 @@ def search():
             mycursor.callproc("returnAllClasses", args=(query,))
             for result in mycursor.stored_results():
                 for i, res in enumerate(result):
-                    name = " ".join(res[0:2])  # joins the first and last name
-                    courseName = res[2]
-                    overallrating = None  # res[3] later be replaced by this
+                    name, courseName, courseDesc, overallrating = " ".join(res[0:2]), res[2], res[3], None
                     cards[i] = {
-                        'ProfessorName': name, 'CourseName': courseName, 'OverallRating': overallrating}
-
-            print(cards)
+                        'ProfessorName': name, 'CourseName': courseName,'CourseDesc': courseDesc ,  'OverallRating': overallrating}
 
         return render_template("search.html", cards=cards)
 
