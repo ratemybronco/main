@@ -17,4 +17,4 @@
 
 Go to the link [Rate my bronco](http://ratemybronco.com).
 
-![Alt Text](./media/mainpage.jpg)
+![Alt Text](./ratemybronco/media/mainpage.jpg)
