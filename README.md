@@ -1,4 +1,4 @@
-# RATE MY BRONCO
+# [RATE MY BRONCO](http://ratemybronco.com)
 
 ## Problem
 - The data on other websites is not specific to Cal Poly Pomona
@@ -14,7 +14,5 @@
 - the rating is anonymous.
 - we calculate ratings based on a specific class or professor.
 
-
-Go to the link [Rate my bronco](http://ratemybronco.com).
 
 ![Alt Text](./ratemybronco/media/mainpage.jpg)
