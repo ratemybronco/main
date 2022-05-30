@@ -1,26 +1,18 @@
 # from crypt import methods
-from xml.etree.ElementTree import tostring
-from flask import Flask, redirect, render_template, request, url_for
-import base64
-from io import BytesIO
-from matplotlib.figure import Figure
-from IPython.display import display
-import numpy as np
-import pandas as pd
-import matplotlib as plt
-import mysql.connector
-from flask_debugtoolbar import DebugToolbarExtension
-import os
+from flask import Flask, render_template, request
+from flaskext.mysql import MySQL
 
 
 app = Flask(__name__)
+app.config['MYSQL_DATABASE_HOST'] = 'mysql_host'
+app.config['MYSQL_DATABASE_USER'] = 'mysql_user'
+app.config['MYSQL_DATABASE_DB'] = 'mysql_db'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'mysql_pass'
 
 
-# MySQL connector and set up
-# ratemybroncoDB = mysql.connector.connect(option_files="ratemybronco/config.cfg", option_groups="database")
-ratemybroncoDB = mysql.connector.connect(user='admin', password='ratemybronco',
-                                         host='ratemybronco.cckwxul93z9y.us-west-1.rds.amazonaws.com', port=3306, database='ratemybronco')
-mycursor = ratemybroncoDB.cursor()
+# MySQL set up
+mysql = MySQL()
+mysql.init_app(app)
 
 
 # Landing page routing
@@ -32,11 +24,11 @@ def landing():
 # Search page routing
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    mycursor = mysql.get_db().cursor()
     cards = {}
     # get attribute query, must be named "query"
     query = request.args.get("query")
     instructor = False
-
     if query:
         # if it has numbers it is a class otherwise prof's name
         instructor = not any(i.isdigit() for i in query)
@@ -51,24 +43,23 @@ def search():
             # returns id of the instructor to look up the courses
             # assumes there is only one prof with this name
             mycursor.callproc("searchInstructor", args=(fname, lname))
-            for result in mycursor.stored_results():
-              for i, res in enumerate(result.fetchall()):
-                  if not res:
+            
+            for i, res in enumerate(mycursor.fetchall()):
+                if not res:
                     print("No results found")
 
-                  name, courseName, courseDesc, overallrating = " ".join(res[0:2]), res[2], res[3], None
-                  cards[i] = {'ProfessorName': name, 'CourseName': courseName, 'CourseDesc': courseDesc, 'OverallRating': overallrating}
+                name, courseName, courseDesc, overallrating = " ".join(res[0:2]), res[2], res[3], None
+                cards[i] = {'ProfessorName': name, 'CourseName': courseName, 'CourseDesc': courseDesc, 'OverallRating': overallrating}
 
         else:
 
             # note when user searches for a course name this the Course.idCourse will be the same for all the returned values
             # this is how the sql is set up!
             mycursor.callproc("returnAllClasses", args=(query,))
-            for result in mycursor.stored_results():
-                for i, res in enumerate(result):
-                    name, courseName, courseDesc, overallrating = " ".join(res[0:2]), res[2], res[3], None
-                    cards[i] = {
-                        'ProfessorName': name, 'CourseName': courseName,'CourseDesc': courseDesc ,  'OverallRating': overallrating}
+            for i, res in enumerate(mycursor.fetchall()):
+                name, courseName, courseDesc, overallrating = " ".join(res[0:2]), res[2], res[3], None
+                cards[i] = {
+                    'ProfessorName': name, 'CourseName': courseName,'CourseDesc': courseDesc ,  'OverallRating': overallrating}
 
         return render_template("search.html", cards=cards)
 
@@ -77,31 +68,32 @@ def search():
 
 @app.route("/professor")
 def professor_page():
+    mycursor = mysql.get_db().cursor()
     name = request.args.get("name").split(" ")
     course = request.args.get("course")
     term = request.args.get("term")
     year = request.args.get("year")
     print(f"{name} {course} {term} {year}")
 
+    if len(name) > 2:
+        name[1] = f"{name[1]} {name[2]}"
+
     if year and term:
         print("Year and term submitted")
         mycursor.callproc("getSectionID", (name[0], name[1], term, year, course))
-        for results in mycursor.stored_results():
-            sectionID = results.fetchone()
+        sectionID = mycursor.fetchone()
 
         mycursor.callproc("getGrades", (sectionID,))
-        for results in mycursor.stored_results():
-            grades = results.fetchone()[0]
+        grades = mycursor.fetchone()[0]
 
         # Place holder template, with example values
         return render_template("professor_page.html")
 
     mycursor.callproc("getGradesByCourse", (course, name[0], name[1]))
-    for results in mycursor.stored_results():
-        grades = results.fetchone()
+    grades = mycursor.fetchone()
     
     return render_template('professorCard.html',
-                            professor=name[0]+name[1],
+                            professor=f"{name[0]} {name[1]}",
                             course=course,
                             values=grades, 
                             labels=['A', 'B', 'C', 'D', 'F'],
@@ -112,6 +104,7 @@ def professor_page():
 # add raiting to the database with a SQL
 @app.route("/review", methods=["POST", "GET"])
 def add_rating():
+    
     if request.method == "GET":
         print("Get request inside the add_rating method")
         return render_template("addRating.html")
@@ -153,6 +146,17 @@ def card():
 @app.route("/aboutUs")
 def aboutus():
     return render_template("aboutUs.html")
+
+
+# @app.errorhandler(mysql.connector.errors.InterfaceError)
+# def database_connection_error():
+#     print("Lost connection to MySQL Database")
+#     global ratemybroncoDB
+#     global mycursor
+#     ratemybroncoDB = mysql.connector.connect(user='admin', password='ratemybronco',
+#                                          host='ratemybronco.cckwxul93z9y.us-west-1.rds.amazonaws.com', port=3306, database='ratemybronco')
+#     mycursor = ratemybroncoDB.cursor()
+#     return redirect(request.referrer)
 
 
 # Run if main
